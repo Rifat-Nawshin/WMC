@@ -1,8 +1,12 @@
 package Package1;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Driver;
 import java.time.Duration;
 import java.util.List;
+import java.util.Properties;
 
 import javax.activation.DataSource;
 import javax.management.StringValueExp;
@@ -15,6 +19,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -26,13 +32,32 @@ public class BaseClass {
 	
 	public static WebDriver driver;
 	public ChromeOptions options = new ChromeOptions();
-	String date = "17";
+	//public String date = "17";
+    public static Properties locators = new Properties();
+	
+	public static FileInputStream fis1;
+	
+	public static Properties values = new Properties();
+	
+	public static FileInputStream fis2; 
 	
 	
+	@BeforeSuite
 	
-	@BeforeTest
-	
-	public void geturl() {
+	public void geturl() throws IOException {
+		
+		
+		if (driver==null) {
+			
+			
+			fis1 = new FileInputStream("D:\\Eclipse\\JAVA PROJECTS\\WMC\\src\\test\\resources\\Resources\\locators.properties");
+			locators.load(fis1);
+			
+			fis2 = new FileInputStream("D:\\Eclipse\\JAVA PROJECTS\\WMC\\src\\test\\resources\\Resources\\values.properties");
+			values.load(fis2);
+			
+			}
+		
 		
 		
 		options.addArguments("--remote-allow-origins=*");
@@ -46,7 +71,16 @@ public class BaseClass {
 		
 	}
 	
-	@Test (priority=1)
+	@AfterSuite
+	
+	public void close() {
+		
+		driver.quit();
+		
+	}
+	
+	
+	/*@Test (priority=1)
 	
 	public void Login() throws InterruptedException
 	
@@ -58,10 +92,10 @@ public class BaseClass {
 		Thread.sleep(4000);
 		//clcik on addressbook
 		driver.findElement(By.xpath("//span[@class='nav-link-image']//i[@class='wmc-icon wmc-address-book']")).click();
-	}
+	}*/
 	
 	
-	@Test (priority=2)
+	/*@Test (priority=2)
 	
 	public void Newcontact() throws InterruptedException {
 		
@@ -78,13 +112,13 @@ public class BaseClass {
 	    
 	    
 	    
-	}
+	}*/
 	
-	@Test (priority=3)
+	/*@Test (priority=3)
 	public void AddressBookInfo() throws InterruptedException {
 		
 		
-		//driver.get("https://d-shaon.brokerstar.org/contact/create");
+		driver.get("https://d-shaon.brokerstar.org/contact/create");
 		
 		
 		//contac no;
@@ -180,6 +214,8 @@ public class BaseClass {
 	    driver.findElement(By.xpath("//*[@id=\"df149d973fefbe7f9ba02a4e416a5e97\"]/div[2]/div[1]/div/span/span[1]/span/ul/li/input")).click();
 	    List <WebElement>  Catagories  =   driver.findElements(By.xpath("//ul[@class=\"select2-results__options\"]//li"));
 	    
+	    
+	    
 	    for (WebElement catagory : Catagories) {
 	    	
 	    	if(catagory.getText().contains("Others")) {
@@ -189,6 +225,22 @@ public class BaseClass {
 	    	}
 	    	
 	    }
+	    
+	    //driver.findElement(By.xpath("//span[@id=\"select2-broker_star_contact_form_language-container\"]")).click();
+		//List <WebElement>  Lang = driver.findElements(By.xpath("//ul[@class=\"select2-results__options\"]//li"));
+		
+		//for(  WebElement l : Lang  ) {
+			
+			//if(l.getText().equals("English")) {
+				
+				//l.click();
+				//break;
+			//}
+			
+		//}
+	    
+	  
+	    
 	    //js.executeScript("window.scrollBy(0,-400)");
 	    
 	    //js2.executeScript("window.scrollTo(0,document.body.scrollHeight)");
@@ -198,12 +250,12 @@ public class BaseClass {
 	    //js.executeScript("arguments[0].scrollIntoView()", Savebutton);
 	    Savebutton.click();
 	    Thread.sleep(4000);
-	}
+	
+
+	}*/
 
 
-
-
-        @Test (priority=4)
+       /* @Test (priority=4)
         public void View() throws InterruptedException {
         	
         	//Thread.sleep(2000);
@@ -242,12 +294,14 @@ public class BaseClass {
        // driver.quit();
         		
         	
-        }
+        }*/
 
-      
+    
+		
+}
 		
 
-  }
+  
 
 
 
